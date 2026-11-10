@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>The Constellation of Us — For Mahathi</title>
+  <meta name="description" content="For Mahathi. A Belated Happy Birthday, and a Promise." />
+  <meta name="theme-color" content="#080b1a" />
+
+  <!-- Google Fonts: Cormorant Garamond (Serif) & Plus Jakarta Sans (Sans-serif) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Deep Night Sky & Nebula Ambient Layers -->
+  <div class="sky-backdrop" aria-hidden="true">
+    <div class="nebula nebula-1"></div>
+    <div class="nebula nebula-2"></div>
+    <div class="nebula nebula-3"></div>
+  </div>
+
+  <!-- Interactive Particle & Drifting Stars Canvas -->
+  <canvas id="starfield-canvas" aria-hidden="true"></canvas>
+
+  <!-- Main Interactive Stage -->
+  <main class="constellation-stage" id="constellation-stage">
+    <!-- Top Subtle Header / Progress Pill -->
+    <header class="top-bar fade-in-delayed">
+      <div class="constellation-badge">
+        <span class="badge-dot"></span>
+        <span class="badge-label">The Constellation of Us</span>
+      </div>
+      <div class="progress-tracker" id="progress-tracker" aria-live="polite">
+        <span id="progress-count">0</span> / 7 Stars Illuminated
+      </div>
+    </header>
+
+    <!-- Centerpiece Title & Prompt -->
+    <section class="hero-centerpiece" aria-labelledby="main-title">
+      <p class="eyebrow-text fade-in-up">A Sky Full of Promises</p>
+      <h1 id="main-title" class="hero-title fade-in-up">
+        For Mahathi.<br />
+        <span class="hero-title-sub">A Belated Happy Birthday, and a Promise.</span>
+      </h1>
+      <p class="pulse-prompt fade-in-up" id="pulse-prompt">
+        <span class="sparkle-icon" aria-hidden="true">✦</span>
+        Click the brightest stars.
+        <span class="sparkle-icon" aria-hidden="true">✦</span>
+      </p>
+    </section>
+
+    <!-- SVG Constellation Lines Layer -->
+    <svg
+      class="constellation-lines"
+      id="constellation-svg"
+      aria-hidden="true"
+      preserveAspectRatio="none"
+    ></svg>
+
+    <!-- 7 Clickable Constellation Stars Container -->
+    <div
+      class="constellation-nodes"
+      id="constellation-nodes"
+      role="group"
+      aria-label="Seven constellation stars for Mahathi"
+    >
+      <!-- Injected dynamically by script.js with accessible buttons -->
+    </div>
+
+    <!-- Bottom Completion Banner (Revealed once all 7 stars are explored) -->
+    <footer class="bottom-whisper" id="bottom-whisper" aria-live="polite">
+      <p class="whisper-text" id="whisper-text">
+        Follow the constellation from I to VII, or tap any star that calls to you.
+      </p>
+    </footer>
+  </main>
+
+  <!-- Glassmorphism Modal Popup -->
+  <div
+    class="modal-overlay"
+    id="star-modal-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-star-title"
+    aria-describedby="modal-star-body"
+     aria-hidden="true"
+  >
+    <div class="modal-glass-card" id="modal-glass-card">
+      <button
+        type="button"
+        class="modal-close-btn"
+        id="modal-close-btn"
+        aria-label="Close message"
+      >
+        &times;
+      </button>
+
+      <div class="modal-header">
+        <div class="modal-star-emblem" aria-hidden="true">
+          <svg viewBox="0 0 48 48" width="36" height="36">
+            <path
+              d="M24 2 C25.8 16.5, 31.5 22.2, 46 24 C31.5 25.8, 25.8 31.5, 24 46 C22.2 31.5, 16.5 25.8, 2 24 C16.5 22.2, 22.2 16.5, 24 2 Z"
+              fill="currentColor"
+            />
+          </svg>
+        </div>
+        <span class="modal-star-index" id="modal-star-index">Star I of VII</span>
+        <h2 class="modal-star-title" id="modal-star-title">The Beginning</h2>
+        <div class="modal-divider" aria-hidden="true">
+          <span></span>
+          <span class="divider-diamond">✦</span>
+          <span></span>
+        </div>
+      </div>
+
+      <img
+        id="modal-star-image"
+        class="modal-star-image"
+        src=""
+        alt="Memory with Mahathi"
+        style="display: none;"
+      />
+
+      <div class="modal-body-wrapper">
+        <p class="modal-star-body" id="modal-star-body"></p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="modal-nav-btn" id="modal-prev-btn" aria-label="Previous star">
+          &larr; Prev Star
+        </button>
+        <div class="modal-dots" id="modal-dots" aria-hidden="true"></div>
+        <button type="button" class="modal-nav-btn modal-nav-primary" id="modal-next-btn" aria-label="Next star">
+          Next Star &rarr;
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,940 @@
+/* ==========================================================================
+   THE CONSTELLATION OF US — STYLESHEET
+   Theme: Deep Night Sky (Navy Blue to Deep Purple), Pale Gold & Soft White
+   ========================================================================== */
+
+:root {
+  /* Night Sky Palette */
+  --sky-top: #050816;
+  --sky-mid-navy: #0a1435;
+  --sky-mid-indigo: #171238;
+  --sky-bottom-purple: #26103d;
+
+  /* Star & Text Colors */
+  --star-white: #fcfbf9;
+  --pale-gold: #f5dfae;
+  --warm-gold: #f0c46c;
+  --rose-gold-glow: rgba(245, 223, 174, 0.55);
+  --star-blue-glow: rgba(168, 204, 255, 0.5);
+  --text-primary: #fbf9f5;
+  --text-secondary: rgba(245, 235, 215, 0.82);
+  --text-muted: rgba(226, 218, 240, 0.62);
+
+  /* Glassmorphism Modal */
+  --glass-bg: linear-gradient(145deg,
+      rgba(16, 21, 52, 0.78) 0%,
+      rgba(28, 16, 54, 0.84) 100%);
+  --glass-border: rgba(245, 223, 174, 0.38);
+  --glass-glow: 0 0 38px rgba(245, 223, 174, 0.18),
+    0 24px 64px rgba(3, 5, 18, 0.78),
+    inset 0 1px 1px rgba(255, 248, 231, 0.25);
+
+  /* Typography */
+  --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Transitions */
+  --ease-out-quart: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--sky-top);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  user-select: none;
+}
+
+/* ==========================================================================
+   IMMERSIVE NIGHT SKY & NEBULA LAYER
+   ========================================================================== */
+
+.sky-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(ellipse 120% 85% at 50% 100%,
+      #2b1248 0%,
+      #1a103c 38%,
+      #0c1638 72%,
+      #060919 100%);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.nebula {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(85px);
+  opacity: 0.42;
+  pointer-events: none;
+  animation: nebulaDrift 24s ease-in-out infinite alternate;
+}
+
+.nebula-1 {
+  width: 55vw;
+  height: 55vw;
+  min-width: 340px;
+  min-height: 340px;
+  top: -12%;
+  left: -8%;
+  background: radial-gradient(circle, rgba(46, 86, 168, 0.38) 0%, transparent 70%);
+}
+
+.nebula-2 {
+  width: 60vw;
+  height: 60vw;
+  min-width: 360px;
+  min-height: 360px;
+  bottom: -18%;
+  right: -10%;
+  background: radial-gradient(circle, rgba(110, 42, 148, 0.42) 0%, transparent 70%);
+  animation-delay: -9s;
+}
+
+.nebula-3 {
+  width: 42vw;
+  height: 42vw;
+  min-width: 280px;
+  min-height: 280px;
+  top: 32%;
+  left: 30%;
+  background: radial-gradient(circle, rgba(245, 210, 145, 0.11) 0%, transparent 68%);
+  animation-delay: -15s;
+}
+
+@keyframes nebulaDrift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  100% {
+    transform: translate3d(24px, -18px, 0) scale(1.08);
+  }
+}
+
+/* ==========================================================================
+   PARTICLE STARFIELD CANVAS
+   ========================================================================== */
+
+#starfield-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   MAIN CONSTELLATION STAGE
+   ========================================================================== */
+
+.constellation-stage {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: clamp(14px, 3vh, 28px) clamp(16px, 4vw, 48px);
+}
+
+/* Top Bar */
+.top-bar {
+  width: 100%;
+  max-width: 1180px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.constellation-badge,
+.progress-tracker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(12, 18, 44, 0.52);
+  border: 1px solid rgba(245, 223, 174, 0.22);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-size: clamp(0.72rem, 1.5vw, 0.82rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--pale-gold);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.28);
+}
+
+.badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--pale-gold);
+  box-shadow: 0 0 10px var(--pale-gold);
+  animation: softPulse 2.6s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   CENTERPIECE HERO TITLE
+   ========================================================================== */
+
+.hero-centerpiece {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(92vw, 720px);
+  text-align: center;
+  z-index: 4;
+  pointer-events: none;
+  padding: 18px 22px;
+  border-radius: 28px;
+  background: radial-gradient(ellipse at center,
+      rgba(8, 12, 32, 0.58) 0%,
+      rgba(8, 12, 32, 0.22) 58%,
+      transparent 80%);
+}
+
+.eyebrow-text {
+  font-family: var(--font-sans);
+  font-size: clamp(0.68rem, 1.4vw, 0.78rem);
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  color: rgba(245, 223, 174, 0.75);
+  margin-bottom: 10px;
+}
+
+.hero-title {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(1.85rem, 4.4vw, 3.35rem);
+  line-height: 1.18;
+  color: var(--star-white);
+  text-shadow: 0 0 22px rgba(245, 223, 174, 0.45),
+    0 0 48px rgba(245, 223, 174, 0.2),
+    0 4px 16px rgba(0, 0, 0, 0.65);
+  letter-spacing: 0.01em;
+}
+
+.hero-title-sub {
+  display: block;
+  margin-top: 6px;
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(1.32rem, 3.1vw, 2.3rem);
+  color: var(--pale-gold);
+  text-shadow: 0 0 24px rgba(245, 223, 174, 0.52),
+    0 2px 12px rgba(0, 0, 0, 0.65);
+}
+
+.pulse-prompt {
+  margin-top: clamp(12px, 2.2vh, 22px);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-sans);
+  font-size: clamp(0.84rem, 1.8vw, 1rem);
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--pale-gold);
+  text-shadow: 0 0 14px rgba(245, 223, 174, 0.65);
+  animation: textPulseGlow 2.6s ease-in-out infinite;
+}
+
+.sparkle-icon {
+  font-size: 0.85em;
+  color: var(--star-white);
+}
+
+@keyframes textPulseGlow {
+
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.985);
+    text-shadow: 0 0 10px rgba(245, 223, 174, 0.35);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+    text-shadow: 0 0 22px rgba(245, 223, 174, 0.9),
+      0 0 36px rgba(255, 255, 255, 0.45);
+  }
+}
+
+/* ==========================================================================
+   CONSTELLATION SVG LINES & CLICKABLE STARS
+   ========================================================================== */
+
+.constellation-lines {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.constellation-line-base {
+  stroke: rgba(245, 223, 174, 0.18);
+  stroke-width: 1.4;
+  stroke-dasharray: 5 7;
+  transition: stroke 0.8s ease, stroke-width 0.8s ease;
+}
+
+.constellation-line-lit {
+  stroke: rgba(245, 223, 174, 0.78);
+  stroke-width: 2;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 8px rgba(245, 223, 174, 0.65));
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  transition: stroke-dashoffset 1.2s var(--ease-out-quart);
+}
+
+.constellation-line-lit.is-connected {
+  stroke-dashoffset: 0;
+}
+
+.constellation-nodes {
+  position: fixed;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+}
+
+/* Individual Star Button (Large Touch Target) */
+.star-node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 64px;
+  height: 64px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  transition: transform 0.35s var(--ease-out-quart);
+  animation: starFloat 5s ease-in-out infinite alternate;
+}
+
+.star-node:nth-child(2n) {
+  animation-duration: 6.2s;
+  animation-delay: -1.8s;
+}
+
+.star-node:nth-child(3n) {
+  animation-duration: 5.5s;
+  animation-delay: -3.2s;
+}
+
+@keyframes starFloat {
+  0% {
+    margin-top: -3px;
+  }
+
+  100% {
+    margin-top: 3px;
+  }
+}
+
+.star-node:hover,
+.star-node:focus-visible {
+  transform: translate(-50%, -50%) scale(1.18);
+  z-index: 10;
+}
+
+.star-node:active {
+  transform: translate(-50%, -50%) scale(0.95);
+}
+
+/* Outer Pulsing Halo */
+.star-halo {
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+      rgba(255, 248, 226, 0.52) 0%,
+      rgba(245, 223, 174, 0.22) 45%,
+      transparent 74%);
+  animation: haloPulse 3.2s ease-in-out infinite;
+  pointer-events: none;
+  transition: all 0.4s ease;
+}
+
+.star-ring {
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(245, 223, 174, 0.34);
+  transform: scale(0.88);
+  opacity: 0.7;
+  transition: transform 0.45s var(--ease-out-quart), opacity 0.45s ease, border-color 0.45s ease;
+  pointer-events: none;
+}
+
+.star-node:hover .star-ring,
+.star-node:focus-visible .star-ring {
+  transform: scale(1.32);
+  opacity: 1;
+  border-color: rgba(245, 223, 174, 0.85);
+}
+
+/* 4-Point Celestial Star SVG Core */
+.star-core-svg {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  color: var(--star-white);
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 18px rgba(245, 223, 174, 0.85));
+  transition: transform 0.45s var(--ease-out-quart), color 0.4s ease, filter 0.4s ease;
+  pointer-events: none;
+}
+
+.star-node:hover .star-core-svg,
+.star-node:focus-visible .star-core-svg {
+  transform: rotate(15deg) scale(1.12);
+  color: var(--pale-gold);
+  filter: drop-shadow(0 0 12px rgba(255, 252, 240, 1)) drop-shadow(0 0 26px rgba(245, 223, 174, 1));
+}
+
+/* Visited / Illuminated State */
+.star-node.is-visited .star-core-svg {
+  color: var(--warm-gold);
+  filter: drop-shadow(0 0 10px rgba(245, 223, 174, 1)) drop-shadow(0 0 24px rgba(240, 196, 108, 0.95));
+}
+
+.star-node.is-visited .star-halo {
+  background: radial-gradient(circle,
+      rgba(240, 196, 108, 0.65) 0%,
+      rgba(245, 223, 174, 0.3) 50%,
+      transparent 76%);
+}
+
+.star-node.is-visited .star-ring {
+  border-color: rgba(240, 196, 108, 0.72);
+  opacity: 0.9;
+}
+
+/* Star Caption Label Underneath Each Star */
+.star-label {
+  position: absolute;
+  top: calc(100% - 6px);
+  white-space: nowrap;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(9, 13, 34, 0.68);
+  border: 1px solid rgba(245, 223, 174, 0.24);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  font-family: var(--font-serif);
+  font-size: clamp(0.78rem, 1.5vw, 0.92rem);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: var(--pale-gold);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+  transition: all 0.35s ease;
+}
+
+.star-node:hover .star-label,
+.star-node:focus-visible .star-label {
+  background: rgba(22, 26, 62, 0.9);
+  border-color: rgba(245, 223, 174, 0.75);
+  color: var(--star-white);
+  transform: translateY(2px);
+  box-shadow: 0 0 16px rgba(245, 223, 174, 0.3);
+}
+
+.star-node.is-visited .star-label {
+  border-color: rgba(240, 196, 108, 0.58);
+  color: #ffe6b0;
+}
+
+@keyframes haloPulse {
+
+  0%,
+  100% {
+    transform: scale(0.92);
+    opacity: 0.68;
+  }
+
+  50% {
+    transform: scale(1.22);
+    opacity: 1;
+  }
+}
+
+/* ==========================================================================
+   BOTTOM WHISPER FOOTER
+   ========================================================================== */
+
+.bottom-whisper {
+  z-index: 5;
+  text-align: center;
+  pointer-events: none;
+  padding: 6px 16px;
+}
+
+.whisper-text {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(0.92rem, 1.8vw, 1.1rem);
+  color: var(--text-secondary);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+  transition: opacity 0.5s ease, color 0.5s ease;
+}
+
+.whisper-text.is-complete {
+  color: var(--pale-gold);
+  text-shadow: 0 0 18px rgba(245, 223, 174, 0.65);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   GLASSMORPHISM MODAL POPUP
+   ========================================================================== */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(5, 8, 22, 0.64);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.42s var(--ease-out-quart), visibility 0.42s ease;
+}
+
+.modal-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.modal-glass-card {
+  position: relative;
+  width: min(100%, 540px);
+  max-height: 86dvh;
+  overflow-y: auto;
+  padding: clamp(28px, 5vw, 42px) clamp(22px, 5vw, 40px) clamp(24px, 4vw, 34px);
+  border-radius: 26px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-glow);
+  backdrop-filter: blur(22px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+  transform: translateY(24px) scale(0.95);
+  opacity: 0;
+  transition: transform 0.48s var(--ease-out-quart), opacity 0.42s var(--ease-out-quart);
+  text-align: center;
+}
+
+.modal-overlay.is-open .modal-glass-card {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+/* Soft Ambient Shimmer Inside Modal */
+.modal-glass-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 26px;
+  padding: 1px;
+  background: linear-gradient(135deg,
+      rgba(255, 248, 230, 0.55) 0%,
+      rgba(245, 223, 174, 0.14) 50%,
+      rgba(245, 223, 174, 0.42) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Simple "X" Close Button */
+.modal-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(245, 223, 174, 0.28);
+  background: rgba(15, 20, 48, 0.55);
+  color: var(--pale-gold);
+  font-size: 1.5rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.modal-close-btn:hover,
+.modal-close-btn:focus-visible {
+  background: rgba(245, 223, 174, 0.18);
+  border-color: rgba(245, 223, 174, 0.75);
+  color: var(--star-white);
+  box-shadow: 0 0 16px rgba(245, 223, 174, 0.35);
+  transform: rotate(90deg);
+}
+
+/* Modal Header */
+.modal-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal-star-emblem {
+  color: var(--pale-gold);
+  filter: drop-shadow(0 0 12px rgba(245, 223, 174, 0.8));
+  margin-bottom: 8px;
+  animation: softPulse 3s ease-in-out infinite;
+}
+
+.modal-star-index {
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  color: rgba(245, 223, 174, 0.75);
+  margin-bottom: 6px;
+}
+
+.modal-star-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.65rem, 4vw, 2.2rem);
+  font-weight: 600;
+  color: var(--star-white);
+  text-shadow: 0 0 18px rgba(245, 223, 174, 0.42);
+  letter-spacing: 0.02em;
+}
+
+.modal-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 72%;
+  margin: 14px auto 20px;
+}
+
+.modal-divider span:first-child,
+.modal-divider span:last-child {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(245, 223, 174, 0.45),
+      transparent);
+}
+
+.divider-diamond {
+  font-size: 0.75rem;
+  color: var(--pale-gold);
+}
+
+/* Modal Star Memory Image */
+.modal-star-image {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  max-height: 260px;
+  object-fit: cover;
+  margin: 0 auto 18px;
+  border-radius: 14px;
+  border: 1px solid rgba(245, 223, 174, 0.3);
+  box-shadow: 0 0 24px rgba(245, 223, 174, 0.16),
+    0 10px 28px rgba(4, 6, 20, 0.65);
+  transition: transform 0.4s var(--ease-out-quart), box-shadow 0.4s ease;
+}
+
+/* Modal Message Body */
+.modal-body-wrapper {
+  padding: 2px 4px 8px;
+}
+
+.modal-star-body {
+  font-family: var(--font-sans);
+  font-size: clamp(1rem, 2.2vw, 1.12rem);
+  font-weight: 300;
+  line-height: 1.78;
+  color: var(--text-primary);
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+  user-select: text;
+}
+
+/* Modal Footer Navigation */
+.modal-footer {
+  margin-top: 26px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(245, 223, 174, 0.14);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.modal-nav-btn {
+  padding: 9px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(245, 223, 174, 0.28);
+  background: rgba(14, 19, 44, 0.55);
+  color: var(--pale-gold);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.modal-nav-btn:hover,
+.modal-nav-btn:focus-visible {
+  background: rgba(245, 223, 174, 0.16);
+  border-color: rgba(245, 223, 174, 0.65);
+  color: var(--star-white);
+  box-shadow: 0 0 14px rgba(245, 223, 174, 0.22);
+}
+
+.modal-nav-primary {
+  background: rgba(245, 223, 174, 0.14);
+  border-color: rgba(245, 223, 174, 0.48);
+}
+
+.modal-dots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.modal-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(245, 223, 174, 0.25);
+  transition: all 0.3s ease;
+}
+
+.modal-dot.is-active {
+  width: 18px;
+  border-radius: 999px;
+  background: var(--pale-gold);
+  box-shadow: 0 0 8px var(--pale-gold);
+}
+
+.modal-dot.is-visited {
+  background: rgba(240, 196, 108, 0.68);
+}
+
+/* ==========================================================================
+   ENTRANCE ANIMATIONS
+   ========================================================================== */
+
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(14px);
+  animation: fadeInUp 1.1s var(--ease-out-quart) forwards;
+}
+
+.eyebrow-text.fade-in-up {
+  animation-delay: 0.15s;
+}
+
+.hero-title.fade-in-up {
+  animation-delay: 0.35s;
+}
+
+.pulse-prompt.fade-in-up {
+  animation-delay: 0.65s;
+}
+
+.fade-in-delayed {
+  opacity: 0;
+  animation: simpleFadeIn 1.2s ease 0.5s forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes simpleFadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes softPulse {
+
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: scale(0.96);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+}
+
+/* ==========================================================================
+   MOBILE & TABLET RESPONSIVENESS
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .top-bar {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .constellation-badge,
+  .progress-tracker {
+    padding: 5px 11px;
+    font-size: 0.68rem;
+  }
+
+  .hero-centerpiece {
+    width: 92vw;
+    padding: 12px 14px;
+  }
+
+  .hero-title {
+    font-size: clamp(1.55rem, 6.2vw, 2.2rem);
+  }
+
+  .hero-title-sub {
+    font-size: clamp(1.15rem, 4.6vw, 1.55rem);
+  }
+
+  .pulse-prompt {
+    margin-top: 10px;
+    font-size: 0.76rem;
+    letter-spacing: 0.11em;
+  }
+
+  /* Larger touch area on mobile screens */
+  .star-node {
+    width: 68px;
+    height: 68px;
+  }
+
+  .star-core-svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .star-label {
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    top: calc(100% - 10px);
+  }
+
+  .modal-glass-card {
+    padding: 26px 20px 22px;
+    border-radius: 22px;
+  }
+
+  .modal-star-image {
+    max-height: 195px;
+    border-radius: 12px;
+    margin-bottom: 14px;
+  }
+
+  .modal-close-btn {
+    top: 12px;
+    right: 12px;
+    width: 38px;
+    height: 38px;
+  }
+
+  .modal-nav-btn {
+    padding: 8px 12px;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-height: 660px) {
+  .eyebrow-text {
+    display: none;
+  }
+
+  .hero-title {
+    font-size: 1.45rem;
+  }
+
+  .hero-title-sub {
+    font-size: 1.1rem;
+  }
+
+  .star-label {
+    font-size: 0.7rem;
+  }
+}
+
+.modal-star-image {
+  width: 100%;
+  max-width: 320px;
+  /* Keeps the image from getting too massive on desktop */
+  height: 100%;
+  max-height: 320px;
+  /* Allows the height to scale naturally with the width */
+  aspect-ratio: 1 / 1;
+  /* Forces a perfect square */
+  object-fit: cover;
+  /* Ensures 100% of the image fits inside without any cropping */
+  margin: 0 auto 20px;
+  /* Centers the image and adds spacing below it */
+  display: block;
+  border-radius: 16px;
+  /* Matches the smooth curves of the modal */
+  border: 1px solid rgba(245, 223, 174, 0.38);
+  /* Subtle gold border */
+  box-shadow: 0 8px 24px rgba(3, 5, 18, 0.6);
+  /* Deep shadow to blend into the sky */
+}
